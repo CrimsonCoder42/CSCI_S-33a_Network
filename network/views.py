@@ -1,4 +1,5 @@
 import json
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import User
+from .models import User, Post, Profile
 
 
 def index(request):
@@ -65,3 +66,22 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+@csrf_exempt
+@login_required
+def create_post(request):
+    print("This is Jeapordy,", request.method)
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    # Get contents of email
+
+    newPost= Post(
+            user=request.user,
+            body=request.POST["body"],
+        )
+
+    newPost.save()
+
+    data = {'user': request.user, 'body': request.POST["body"]}
+    return JsonResponse(data, safe=False)
