@@ -71,17 +71,24 @@ def register(request):
 @csrf_exempt
 @login_required
 def create_post(request):
-    print("This is Jeapordy,", request.method)
+    print(request.user)
+    print(json.loads(request.body))
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     # Get contents of email
 
+    content = json.loads(request.body)
     newPost= Post(
-            user=request.user,
-            body=request.POST["body"],
+            # user=request.user,
+            body=content["body"],
         )
 
     newPost.save()
 
-    data = {'user': request.user, 'body': request.POST["body"]}
+    data = {'body': content["body"]}
     return JsonResponse(data, safe=False)
+
+@login_required
+def personal_profile(request):
+
+    return render(request, "network/personal_profile.html")

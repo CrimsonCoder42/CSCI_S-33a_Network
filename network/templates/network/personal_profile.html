@@ -4,11 +4,11 @@
 {% block body %}
 
 <div class="row">
-    <div id="profile-view">
-        <div id="profile_card" class="card" style="width: 18rem;">
+    <div id="personal_profile">
+        <div id="personal_card" class="card" style="width: 18rem;">
 
             <div class="card-body">
-                <h5 class="card-title">UserName</h5>
+                <h5 class="card-title">{{ user.username }}</h5>
                 <p class="card-text">This will be where the bio information will go</p>
             </div>
             <ul class="list-group list-group-flush">
@@ -17,8 +17,7 @@
                 <li class="list-group-item">Posts: </li>
             </ul>
             <div class="card-body">
-                <button id="follow" class="btn btn-primary">Follow</button>
-                <button id="unfollow" class="btn btn-primary">Unfollow</button>
+
             </div>
         </div>
 
@@ -27,13 +26,6 @@
 </div>
 
 
-<div class="row">
-    <div id="compose-view">
-        <form id="compose-form">
-            <textarea maxlength="280" class="form-control" id="compose-body"
-                placeholder="What's on your mind?"></textarea>
-            <input id="submit" type="submit" value='Post' class="btn btn-primary" />
-        </form>
     </div>
 </div>
 
@@ -59,7 +51,7 @@
                         <textarea disabled class="form-control" id="post-body"></textarea>
                     </div>
                     <div class="email-attachments">
-                        <button id="like_button" class="btn btn-primary">Like</button>
+
                     </div>
                 </div>
             </div>
@@ -72,8 +64,4 @@
 
 </div>
 
-{% endblock %}
-
-{% block script %}
-<script src="{% static 'network/index.js' %}"></script>
 {% endblock %}

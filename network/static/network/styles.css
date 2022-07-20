@@ -1,0 +1,45 @@
+#compose-view{
+    width: 70%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15%;
+}
+
+#personal_profile {
+     width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15%;
+
+}
+
+#profile-view {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15%;
+}
+
+#profile_card {
+    margin-left: 20%;
+    margin-right: 80%;
+}
+
+#post-view{
+    width: 70%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 15%;
+}
+
+#post-body{
+    background-color: white;
+    border: none;
+    min-height: 100px;
+
+}
+
+#compose-body {
+    margin-bottom: 10px;
+}
+
