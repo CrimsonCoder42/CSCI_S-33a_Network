@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
     document.querySelector('#post-maker').addEventListener('click', () => user_profile());
-    document.querySelector('#post-maker').addEventListener('click', () => user_profile());
+    document.querySelector('#submit').addEventListener('click', () => create_post());
 //    document.querySelector('#submit').addEventListener('click', send_email);
     //document.querySelector('#email_replay').addEventListener('click', reply);
 
@@ -26,7 +26,7 @@ function feed_page() {
 // takes all info from values and passes to API when promised is finished it loads sent mailbox
 function create_post() {
 
-    fetch('/post', {
+    fetch('post', {
             method: 'POST',
             body: JSON.stringify({
                 body: document.querySelector('#compose-body').value

@@ -13,6 +13,7 @@ from .models import User, Post, Profile
 
 
 def index(request):
+
     return render(request, "network/index.html")
 
 
@@ -72,23 +73,25 @@ def register(request):
 @login_required
 def create_post(request):
     print(request.user)
-    print(json.loads(request.body))
+    print(json.loads(request.body)["body"])
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     # Get contents of email
 
     content = json.loads(request.body)
     newPost= Post(
-            # user=request.user,
+            user=request.user,
             body=content["body"],
         )
 
     newPost.save()
 
-    data = {'body': content["body"]}
-    return JsonResponse(data, safe=False)
+    return JsonResponse({"message": "saved successfully."}, status=201)
 
 @login_required
 def personal_profile(request):
 
-    return render(request, "network/personal_profile.html")
+    personalPosts = Post.objects.filter(user=request.user)
+    return render(request, "network/personal_profile.html",{
+        'posts': personalPosts
+    })
