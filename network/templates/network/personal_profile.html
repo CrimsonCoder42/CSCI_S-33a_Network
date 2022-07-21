@@ -45,7 +45,7 @@
                                 <div class="aside-content">
                                     <div class="aside-header">
                                     </div>
-                                    <a href="#" id="post-maker">{{ user.username }}</a>
+                                    <a  id="post-maker">{{ user.username }}</a>
                                     <div id="dateTime" class="date">{{ item.timestamp }}</div>
                                 </div>
                             </div>
@@ -54,11 +54,14 @@
                     <div class="email-body-div">
                         <textarea disabled class="form-control" id="post-body">{{ item.body }}</textarea>
                     </div>
-
+                        <div class="email-attachments">
+                            <button id="like_button" class="btn btn-primary">edit</button>
+                        </div>
 
                     </div>
                 </div>
             </tr>
+            <br>
             {% endfor %}
             </tbody>
             </table>
@@ -72,4 +75,7 @@
 
 </div>
 
+{% endblock %}
+{% block script %}
+<script src="{% static 'network/personal.js' %}"></script>
 {% endblock %}

@@ -13,8 +13,11 @@ from .models import User, Post, Profile
 
 
 def index(request):
+    allPosts = Post.objects.order_by("-timestamp").all()
+    return render(request, "network/index.html", {
+        'posts': allPosts
+    })
 
-    return render(request, "network/index.html")
 
 
 def login_view(request):
@@ -59,6 +62,7 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
@@ -72,8 +76,7 @@ def register(request):
 @csrf_exempt
 @login_required
 def create_post(request):
-    print(request.user)
-    print(json.loads(request.body)["body"])
+
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
     # Get contents of email
@@ -90,8 +93,23 @@ def create_post(request):
 
 @login_required
 def personal_profile(request):
-
     personalPosts = Post.objects.filter(user=request.user)
     return render(request, "network/personal_profile.html",{
         'posts': personalPosts
     })
+
+@login_required
+def personal_profile_update(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+        # Get contents of email
+
+    content = json.loads(request.body)
+    profileUpdate = Profile(
+        user=request.user,
+        user_bio=content["body"],
+    )
+
+    profileUpdate.save()
+
+    return JsonResponse({"message": "saved successfully."}, status=201)

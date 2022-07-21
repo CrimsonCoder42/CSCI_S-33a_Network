@@ -1,9 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // Use buttons to toggle between views
-    document.querySelector('#post-maker').addEventListener('click', () => user_profile());
+
     document.querySelector('#submit').addEventListener('click', () => create_post());
-//    document.querySelector('#submit').addEventListener('click', send_email);
+    let currentUser = document.querySelector('#my_profile').innerText
+    let links = document.getElementsByClassName('postMaker')
+    Array.from(links).forEach(element => {
+        if (element.innerText == currentUser){
+            element.innerText = "Me"
+            element.href="personal_profile"
+        }
+        element.addEventListener('click', () => user_profile(element.innerText))
+        });
+   let test2 = document.querySelector('#my_profile')
+
     //document.querySelector('#email_replay').addEventListener('click', reply);
 
 
@@ -41,11 +51,16 @@ function create_post() {
 }
 
 // needs to take in user id and fill in correct info
-function user_profile() {
+function user_profile(name) {
     document.querySelector('#compose-view').style.display = 'none';
     document.querySelector('#post-view').style.display = 'block';
     document.querySelector('#profile-view').style.display = 'block';
 
+
+//    let currentUser = document.querySelector('#my_profile').innerText
+//    console.log(currentUser)
+
+    console.log(name)
     // Clear out composition fields
 
 // fetch email by ID and pass values to fill_in_values to populate input values
@@ -281,3 +296,8 @@ function personal_profile() {
 //        }).then( location.reload() )
 //    }
 //
+
+function profile() {
+    console.log
+
+}
