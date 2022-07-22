@@ -8,3 +8,8 @@ console.log(currentUser)
 
 });
 
+function editBio(){
+    let current_bio =  document.querySelector('.card-text')
+
+}
+
