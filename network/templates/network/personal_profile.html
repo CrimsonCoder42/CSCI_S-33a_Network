@@ -8,14 +8,14 @@
         <div id="personal_card" class="card" style="width: 18rem;">
 
             <div class="card-body">
-                <h5 class="card-title">{{ user.username }}</h5>
-                <p class="card-text">{{ user_bio }}</p>
+                <h5 class="card-title">{{ profile_info.username }}</h5>
+                <p class="card-text">{{ profile_info.user_bio }}</p>
 
             </div>
 
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Followers: </li>
-                <li class="list-group-item">Following: </li>
+                <li class="list-group-item">Followers: {{ profile_info.follower_count }} </li>
+                <li class="list-group-item">Following: {{ profile_info.following_count }} </li>
             </ul>
             <div class="card-body">
 

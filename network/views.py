@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Count
 
 from .models import User, Post, Profile
 
@@ -26,18 +27,17 @@ def index(request):
 def user_profile(request, username):
 
     personalPosts = Post.objects.filter(username=username)
-    profile_info = Profile.objects.filter(username=username).values()[0]
-    user_helper(request, username)
+    profile_info = Profile.objects.filter(username=username).annotate(
+        follower_count=Count("followers", distinct=True),
+        following_count=Count("following", distinct=True)
+    ).values()[0]
+
+    profile_info["posts"]=list(personalPosts.values())
+
+    print(profile_info)
+
     return JsonResponse(profile_info, safe=False)
 
-
-def user_helper(request, username):
-
-    personalPosts = Post.objects.filter(username=username)
-    print(personalPosts)
-    return render(request, "network/index.html",{
-        'user_posts': personalPosts
-    })
 
 
 def login_view(request):
@@ -124,9 +124,16 @@ def create_post(request):
 def personal_profile(request):
     personalPosts = Post.objects.filter(user=request.user)
 
-    print("request.user = ", type(request.user))
+    profile_info = Profile.objects.filter(username=request.user).annotate(
+        follower_count=Count("followers", distinct=True),
+        following_count=Count("following", distinct=True)
+    ).values()[0]
+
+    print(profile_info)
+
     return render(request, "network/personal_profile.html",{
         'posts': personalPosts,
+        'profile_info': profile_info
     })
 
 @login_required

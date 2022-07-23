@@ -55,6 +55,8 @@ function user_profile(name) {
 
     let cardTitle = document.querySelector('#username')
     let cardBio = document.querySelector('#userBio')
+    let followers = document.querySelector('#profile_followers')
+    let following = document.querySelector('#profile_following')
 
 //    let currentUser = document.querySelector('#my_profile').innerText
 //    console.log(currentUser)
@@ -65,6 +67,8 @@ function user_profile(name) {
         .then(data => {
             cardTitle.innerText = data.username
             cardBio.innerText =  data.user_bio
+            followers.innerText = data.follower_count
+            following.innerText = data.following_count
             console.log(data)
         });
 }
