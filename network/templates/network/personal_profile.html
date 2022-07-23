@@ -9,12 +9,13 @@
 
             <div class="card-body">
                 <h5 class="card-title">{{ user.username }}</h5>
-                <p class="card-text">This will be where the bio information will go</p>
+                <p class="card-text">{{ user_bio }}</p>
+
             </div>
+
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Followers: </li>
                 <li class="list-group-item">Following: </li>
-                <li class="list-group-item">Posts: </li>
             </ul>
             <div class="card-body">
 
@@ -45,7 +46,7 @@
                                 <div class="aside-content">
                                     <div class="aside-header">
                                     </div>
-                                    <a  id="post-maker">{{ user.username }}</a>
+                                    <a  id="post-maker">{{ item.user }}</a>
                                     <div id="dateTime" class="date">{{ item.timestamp }}</div>
                                 </div>
                             </div>
@@ -55,8 +56,9 @@
                         <textarea disabled class="form-control" id="post-body">{{ item.body }}</textarea>
                     </div>
                         <div class="email-attachments">
-                            <button id="like_button" class="btn btn-primary">edit</button>
+                            <button id="edit_button" class="btn btn-primary">edit</button>
                         </div>
+                        <div class="likes">likes: <span id ="{{ item.id }}">0</span></div>
 
                     </div>
                 </div>

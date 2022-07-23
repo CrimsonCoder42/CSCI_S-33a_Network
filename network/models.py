@@ -7,9 +7,11 @@ class User(AbstractUser):
     pass
 
 
+
 # New Post
 class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="post")
+    username = models.TextField(blank=True)
     body = models.TextField(blank=True)
     like_count = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -17,18 +19,20 @@ class Post(models.Model):
     def serialize(self):
         return {
             "id": self.user.id,
+            "username": self.username,
             "body": self.body,
             "like_count": self.like_count,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_profile")
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="user_profile")
+    username= models.TextField(blank=True)
     user_bio = models.TextField(blank=True)
     following = models.ManyToManyField("User", related_name="following_users")
     followers = models.ManyToManyField("User", related_name="followers_users")
 
-    def serialize(self, user):
+    def serialize(self):
         return {
             "id": self.id,
             "username": self.user.username,

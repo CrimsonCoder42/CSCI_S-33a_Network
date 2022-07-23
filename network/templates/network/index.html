@@ -9,17 +9,55 @@
         <div id="profile_card" class="card" style="width: 18rem;">
 
             <div class="card-body">
-                <h5 class="card-title">UserName</h5>
-                <p class="card-text">This will be where the bio information will go</p>
+                <h5 class="card-title" id="username">UserName</h5>
+                <p class="card-text" id="userBio">This will be where the bio information will go</p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Followers: </li>
                 <li class="list-group-item">Following: </li>
-                <li class="list-group-item">Posts: </li>
             </ul>
             <div class="card-body">
                 <button id="follow" class="btn btn-primary">Follow</button>
                 <button id="unfollow" class="btn btn-primary">Unfollow</button>
+            </div>
+        </div>
+
+        <div class="row inbox-wrapper">
+            <div class="col-lg-12">
+                     <table class="table email-table no-wrap table-hover v-middle mb-0 font-14">
+                    <tbody id="archive_emails2">
+                {% for item in user_posts %}
+                 <tr>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3 email-aside border-lg-right">
+                                <div class="aside-content">
+                                    <div class="aside-header">
+                                    </div>
+                                    <a href="#" class="postMaker">{{ item.user }}</a>
+                                    <div id="dateTime2" class="date">{{ item.timestamp }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="email-body-div">
+                        <textarea disabled class="form-control" id="post-body2">{{ item.body }}</textarea>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="email-attachments">
+                            <button id="like_button2" class="btn btn-primary">Like</button>
+                        </div>
+                    {% endif %}
+
+
+                    </div>
+                </div>
+            </tr>
+            <br>
+            {% endfor %}
+            </tbody>
+            </table>
             </div>
         </div>
 
@@ -65,7 +103,9 @@
                     </div>
                     {% if user.is_authenticated %}
                         <div class="email-attachments">
-                            <button id="like_button" class="btn btn-primary">Like</button>
+
+                            <button id="{{item.id}}" class="btn btn-success">Like: {{ item.like_count }}</button>
+
                         </div>
                     {% endif %}
 

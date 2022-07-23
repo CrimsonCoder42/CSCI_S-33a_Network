@@ -14,10 +14,30 @@ from .models import User, Post, Profile
 
 def index(request):
     allPosts = Post.objects.order_by("-timestamp").all()
+
     return render(request, "network/index.html", {
-        'posts': allPosts
+        'posts': allPosts,
+
     })
 
+
+
+@login_required
+def user_profile(request, username):
+
+    personalPosts = Post.objects.filter(username=username)
+    profile_info = Profile.objects.filter(username=username).values()[0]
+    user_helper(request, username)
+    return JsonResponse(profile_info, safe=False)
+
+
+def user_helper(request, username):
+
+    personalPosts = Post.objects.filter(username=username)
+    print(personalPosts)
+    return render(request, "network/index.html",{
+        'user_posts': personalPosts
+    })
 
 
 def login_view(request):
@@ -49,6 +69,7 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        user_bio = request.POST["user_bio"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -62,6 +83,14 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            print("Here",user.username)
+            newProfile = Profile(
+                user=user,
+                username=username,
+                user_bio=user_bio
+            )
+
+            newProfile.save()
 
         except IntegrityError:
             return render(request, "network/register.html", {
@@ -76,15 +105,15 @@ def register(request):
 @csrf_exempt
 @login_required
 def create_post(request):
-
+    print(request.user)
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
-    # Get contents of email
 
     content = json.loads(request.body)
     newPost= Post(
             user=request.user,
             body=content["body"],
+            username=request.user
         )
 
     newPost.save()
@@ -94,22 +123,22 @@ def create_post(request):
 @login_required
 def personal_profile(request):
     personalPosts = Post.objects.filter(user=request.user)
+
+    print("request.user = ", type(request.user))
     return render(request, "network/personal_profile.html",{
-        'posts': personalPosts
+        'posts': personalPosts,
     })
 
 @login_required
-def personal_profile_update(request):
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
-        # Get contents of email
+def likes(request, id):
+    post = Post.objects.filter(id=id).values()
 
-    content = json.loads(request.body)
-    profileUpdate = Profile(
-        user=request.user,
-        user_bio=content["body"],
-    )
-
-    profileUpdate.save()
+    print(post)
 
     return JsonResponse({"message": "saved successfully."}, status=201)
+
+
+
+
+
+
