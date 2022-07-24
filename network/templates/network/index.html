@@ -92,7 +92,7 @@
                                 <div class="aside-content">
                                     <div class="aside-header">
                                     </div>
-                                    <a href="#" class="postMaker">{{ item.user }}</a>
+                                    <a href="profile/{{ item.user }}" class="postMaker">{{ item.user }}</a>
                                     <div id="dateTime" class="date">{{ item.timestamp }}</div>
                                 </div>
                             </div>
@@ -103,13 +103,24 @@
                     </div>
                     {% if user.is_authenticated %}
                         <div class="email-attachments">
-
-                            <button id="{{item.id}}" class="btn btn-success">Like: {{ item.like_count }}</button>
-
+                                <button id="{{item.id}}" class="btn btn-success">
+                                    {% if item.id in liked_posts %}
+                                        Unlike: {{ item.like_count }}
+                                    {% else %}
+                                        Like: {{ item.like_count }}
+                                    {% endif %}
+                                </button>
                         </div>
                     {% endif %}
-
-
+                        {% if user.username == item.user  %}
+                            <button  class="btn btn-warning">
+                                    {% if item.id in liked_posts %}
+                                        Unlike: {{ item.like_count }}
+                                    {% else %}
+                                        Like: {{ item.like_count }}
+                                    {% endif %}
+                                </button>
+                        {% endif %}
                     </div>
                 </div>
             </tr>

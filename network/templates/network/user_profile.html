@@ -1,0 +1,78 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<div class="row">
+    <div id="profile-view">
+        <div id="profile_card" class="card" style="width: 18rem;">
+
+            <div class="card-body">
+                <h5 class="card-title" id="username">{{ profile_info.username }}</h5>
+                <p class="card-text" id="userBio">{{ profile_info.body }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Followers:{{ profile_info.follower_count }}<div id="profile_followers"> </div>
+                </li>
+                <li class="list-group-item">Following:{{ profile_info.follower_count }} <div id="profile_following"> </div>
+                </li>
+            </ul>
+            <div class="card-body">
+                <a href="/follow/{{ profile_info.username }}"><button id="follow" class="btn btn-primary">Follow OR Unfollow</button></a>
+
+            </div>
+        </div>
+{% endif %}
+        <div class="row">
+            <div id="post-view">
+                <div class="row inbox-wrapper">
+                    <div class="col-lg-12">
+                        <table class="table email-table no-wrap table-hover v-middle mb-0 font-14">
+                            <tbody id="archive_emails">
+                                {% for item in posts %}
+                                <tr>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-3 email-aside border-lg-right">
+                                                    <div class="aside-content">
+                                                        <div class="aside-header">
+                                                        </div>
+                                                        <a href="#" class="postMaker">{{ item.user }}</a>
+                                                        <div id="dateTime" class="date">{{ item.timestamp }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="email-body-div">
+                                            <textarea disabled class="form-control"
+                                                id="post-body">{{ item.body }}</textarea>
+                                        </div>
+                                        {% if user.is_authenticated %}
+
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+                    </div>
+                    </tr>
+                    <br>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'network/index.js' %}"></script>
+{% endblock %}

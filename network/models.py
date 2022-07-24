@@ -14,6 +14,7 @@ class Post(models.Model):
     username = models.TextField(blank=True)
     body = models.TextField(blank=True)
     like_count = models.IntegerField(default=0)
+    liked_by = models.ManyToManyField("User", related_name="post_liked_by")
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def serialize(self):
@@ -22,6 +23,7 @@ class Post(models.Model):
             "username": self.username,
             "body": self.body,
             "like_count": self.like_count,
+            "liked_by": self.liked_by,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
 

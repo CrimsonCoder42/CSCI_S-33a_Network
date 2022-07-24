@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
             element.innerText = "Me"
             element.href="personal_profile"
         }
-        element.addEventListener('click', () => user_profile(element.innerText))
+        //element.addEventListener('click', () => user_profile(element.innerText))
         });
 
     let likes = document.getElementsByClassName('btn btn-success')
     Array.from(likes).forEach(element => {
-        element.addEventListener('click', () => user_profile(element.innerText))
+        element.addEventListener('click', () => like_button(element.id))
         });
 
     feed_page()
@@ -58,8 +58,6 @@ function user_profile(name) {
     let followers = document.querySelector('#profile_followers')
     let following = document.querySelector('#profile_following')
 
-//    let currentUser = document.querySelector('#my_profile').innerText
-//    console.log(currentUser)
     console.log(name)
 
     fetch(`profile/${name}`)
@@ -73,14 +71,24 @@ function user_profile(name) {
         });
 }
 
-function likes(id) {
+function like_button(id) {
 
-fetch(`likes/${name}`)
+fetch(`likes/${id}`)
         .then(response => response.json())
         .then(data => {
-            cardTitle.innerText = data.username
-            cardBio.innerText =  data.user_bio
+        console.log(id)
+        console.log(data)
             console.log(data)
+            let button = document.getElementById(id)
+            button.innerText = `${data.title}:${data.like_count}`
+
         });
+
+}
+
+function button_display(id, data) {
+
+
+
 
 }
